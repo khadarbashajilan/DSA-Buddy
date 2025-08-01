@@ -6,7 +6,6 @@ import "dotenv/config";
 // We are not using this because it is not directly compatible with LangChain's Expression Language (LCEL).
 // import { GoogleGenAI } from "@google/genai";
 
-
 // Import the PromptTemplate class from LangChain's core library.
 // This class is used to create and manage dynamic, reusable prompt templates.
 import { PromptTemplate } from "@langchain/core/prompts";
