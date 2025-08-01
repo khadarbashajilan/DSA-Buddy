@@ -14,8 +14,6 @@ const vectorStore = new SupabaseVectorStore(embeddings,{
     tableName: 'documents',
     queryName: 'match_documents'
 })
-
-try{
     
     const retriever = vectorStore.asRetriever();
     
@@ -24,15 +22,7 @@ try{
     const standaloneQuestionPrompt = PromptTemplate.fromTemplate(standaloneQuestionTemplate)
 
     const standaloneQuestionChain = standaloneQuestionPrompt.pipe(llm)
-
-// const response = await standaloneQuestionChain.invoke({
-//         question: 'What are the technical requirements for running Scrimba? I only have a very old laptop which is not that powerful.'
-//     })
     
-    const response2 = await retriever.invoke('hi')
+    const response = await retriever.invoke('hi')
     
-    console.log(response2)
-}
-    catch(e){
-        console.log("ERROROR"+e);
-    }
+    console.log(response)
