@@ -1,7 +1,7 @@
 import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { llm, retriever } from "./retriever.js";
-import { RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables";
+import { RunnableSequence } from "@langchain/core/runnables";
 
 
 // --- Define Prompt Templates ---
@@ -53,22 +53,21 @@ const chain = RunnableSequence.from([
     // Again, we pass the original 'lang' variable forward.
     lang: (input) => input.lang
   },
-
+  
   // Step 3: Convert the language. The input here is { corrected_sent: "...", lang: "..." }.
   // This final step returns the direct output of the CnvrtChain.
-  (input) => CnvrtChain.invoke({
-    sent: input.corrected_sent,
-    lang: input.lang,
-  })
+  (input) => CnvrtChain.invoke({  sent: input.corrected_sent,   lang: input.lang, })
 ]);
+
 
 // --- Invoke the Corrected Chain ---
 const result = await chain.invoke({
     sent: "Hi, How re u",
-    lang: "Telugu",
+    lang: "Kannada",
 });
-
 console.log(result);
+
+
 
 // ---------------- Here these two methods from below, using any one of them is getting fix all errors. can't understand this behaviour of LLM-------------------
 // ---------------- I got it now, it all depends on your prompt how u give prompt to llm for example checkout the #"To change the langauge" last one-------------------
