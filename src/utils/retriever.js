@@ -10,9 +10,12 @@ import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase'; 
 import { createClient } from "@supabase/supabase-js";
 
+const sburl = process.env.VITE_SBURL
+const sbapi=process.env.VITE_SBAPI
+
 // Initialize the Supabase client using environment variables.
 // This client provides the connection to your Supabase database instance.
-const client = createClient(process.env.VITE_SBURL, process.env.VITE_SBAPI);
+const client = createClient(sburl, sbapi);
 
 // Initialize the Language Model (LLM) using a specific Google Gemini model.
 // This model will be used to generate standalone questions and final responses.
