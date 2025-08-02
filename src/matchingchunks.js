@@ -32,11 +32,20 @@ const vectorStore = new SupabaseVectorStore(embeddings, {
   tableName: 'documents',
   queryName: 'match_documents'
 });
-    
+
 // Create a retriever from the vector store
 // The retriever is a key component in a RAG (Retrieval-Augmented Generation) system.
 // It is responsible for fetching relevant documents from the vector store based on a query.
 const retriever = vectorStore.asRetriever();
+
+// Invoke the retriever with the query 'hi'
+// The retriever will search for documents in the Supabase vector store that are semantically
+// similar to 'hi'.
+const response = await retriever.invoke('hi');
+
+// Log the response from the retriever to the console 
+// This will output the relevant documents that were retrieved.
+console.log(response);
     
 // Define a template for creating a "standalone question"
 // This is often used in conversational chains to ensure each question can be understood
@@ -49,13 +58,4 @@ const standaloneQuestionPrompt = PromptTemplate.fromTemplate(standaloneQuestionT
 // Create a chain that pipes the standalone question prompt to the language model
 // This chain will take a question, format it using the prompt, and then get a response from the LLM.
 const standaloneQuestionChain = standaloneQuestionPrompt.pipe(llm);
-    
-// Invoke the retriever with the query 'hi'
-// The retriever will search for documents in the Supabase vector store that are semantically
-// similar to 'hi'.
-const response = await retriever.invoke('hi');
-    
-// Log the response from the retriever to the console 
-// This will output the relevant documents that were retrieved.
-console.log(response);
 
