@@ -75,7 +75,7 @@ const chain = standaloneQuestionPrompt
 
 
 const response2 = await chain.invoke({
- question: "Why should i use TypeScript"
+ question: "what is string"
 })
 
 // The `invoke` method executes the entire chain with the provided input
