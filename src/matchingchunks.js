@@ -5,7 +5,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai"; // A class for
 import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai'; // A class for generating embeddings using Google's Generative AI
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase'; // A class for using Supabase as a vector store
 import { createClient } from "@supabase/supabase-js"; // A function to create a Supabase client
-
+import { StringOutputParser } from "@langchain/core/output_parsers";
 
 // Create a Supabase client using environment variables for the URL and API key
 // These are loaded from the .env file by the "dotenv/config" import
@@ -41,11 +41,11 @@ const retriever = vectorStore.asRetriever();
 // Invoke the retriever with the query 'hi'
 // The retriever will search for documents in the Supabase vector store that are semantically
 // similar to 'hi'.
-const response = await retriever.invoke('hi');
+const response1 = await retriever.invoke('hi');
 
 // Log the response from the retriever to the console 
 // This will output the relevant documents that were retrieved.
-console.log(response);
+// console.log(response1);
     
 // Define a template for creating a "standalone question"
 // This is often used in conversational chains to ensure each question can be understood
@@ -55,7 +55,31 @@ const standaloneQuestionTemplate = 'Given a question, convert it to a standalone
 // Create a PromptTemplate instance from the template string
 const standaloneQuestionPrompt = PromptTemplate.fromTemplate(standaloneQuestionTemplate);
 
-// Create a chain that pipes the standalone question prompt to the language model
-// This chain will take a question, format it using the prompt, and then get a response from the LLM.
-const standaloneQuestionChain = standaloneQuestionPrompt.pipe(llm);
+// Creates a sequence of operations that will be executed in order.
+// Each step's output is passed as the input to the next step.
+const chain = standaloneQuestionPrompt 
+// Step 1: Takes a question as input, and formats it using the "standaloneQuestionTemplate".
+ // This turns a potentially conversational question like "What about the second one?"
+ // into a complete, standalone question like "What about the second topic?"
+ .pipe(llm) 
+ // Step 2: Passes the formatted prompt to the language model (llm).
+ // The LLM generates a response, which is a complex object (an AIMessage or similar).
+ .pipe(new StringOutputParser()) 
+ // Step 3: This is a crucial step. The StringOutputParser takes the LLM's complex output
+ // and extracts just the plain text string content. This is necessary because the next
+ // step (the retriever) expects a simple string as input for its search query.
+ .pipe(retriever)
+ // Step 4: Takes the cleaned, standalone question string from the output parser
+ // and uses it to query the vector store. The retriever will find and return
+ // the most relevant documents based on the question.
 
+
+const response2 = await chain.invoke({
+ question: "Why should i use TypeScript"
+})
+
+// The `invoke` method executes the entire chain with the provided input
+// The final result `response2` is an array of `Document` objects from the vector store.
+
+console.log(response2);
+// This logs the array of retrieved documents to the console.
