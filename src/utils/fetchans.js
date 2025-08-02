@@ -69,7 +69,7 @@ console.log(result);
 
 
 
-// ---------------- Here these two methods from below, using any one of them is getting fix all errors. can't understand this behaviour of LLM-------------------
+// ---------------- Here from below ex's, using any one of them is getting fix all errors. can't understand this behaviour of LLM-------------------
 // ---------------- I got it now, it all depends on your prompt how u give prompt to llm for example checkout the #"To change the langauge" last one-------------------
 
 
