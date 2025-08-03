@@ -1,5 +1,5 @@
 import { PromptTemplate } from "@langchain/core/prompts";
-import { llm, retriever } from "./utils/retriever.js";
+import { llm, retriever } from "./utils/retriever";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import {  RunnablePassthrough,  RunnableSequence,} from "@langchain/core/runnables";
 // ========================================================================================================
@@ -9,6 +9,9 @@ import {  RunnablePassthrough,  RunnableSequence,} from "@langchain/core/runnabl
 
 // This is the instruction for the LLM to rephrase a question so it can be understood
 // on its own, without any previous conversation history.
+
+export async function gemini(question:string){
+
 const standaloneQuestionTemplate ="Given a question, convert it to a standalone question. question: {question} standalone question:";
 const standaloneQuestionPrompt = PromptTemplate.fromTemplate(standaloneQuestionTemplate);
 
@@ -38,11 +41,11 @@ const standaloneQuestionChain = standaloneQuestionPrompt
     },
     retriever,
     //Below PrevResult means thats returned from retriever, dont get confused .i.e,. MATCHING CHUNKS[] from vetcor store SupaBase
+
     (prevResult)=>{
       return prevResult.map((doc) => doc.pageContent).join("\n\n")},
     ]);
     
-    console.log(retrievalChain)
     // This chain's job is to take the context and the original question and generate the final answer.
   const answerGenerationChain = answerPrompt
       .pipe(llm)
@@ -79,9 +82,11 @@ const mainRagChain = RunnableSequence.from([
 // --- Example Usage ---
 // This is how you would run the entire RAG pipeline with a user's question.
 // ========================================================================================================
-async function runExample() {
 
-  const userQuestion = "what are Arrays?";
+  // const userQuestion1 = "Can you give a real-life example of how Stacks work?";
+  // const userQuestion2 = "Where do we actually use Queues in everyday life?";
+  // const userQuestion3 = "What are Arrays and how do they make coding easier?";
+  const userQuestion = question;
 
   // Invoke the main RAG chain with the user's question.
   // In a real application, replace this with your actual invocation logic.
@@ -90,7 +95,6 @@ async function runExample() {
   const finalAnswer = await mainRagChain.invoke({
     question: userQuestion,
   });
-  console.log(finalAnswer);
-}
 
-runExample();
+  return finalAnswer;
+}

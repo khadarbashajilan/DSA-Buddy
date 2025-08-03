@@ -2,7 +2,6 @@
 // connecting a Google Generative AI model with a Supabase vector store.
 
 // Load environment variables from a .env file for secure configuration.
-import "dotenv/config"; 
 // Import classes for interacting with Google's Generative AI models and creating text embeddings.
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai'; 
@@ -10,25 +9,27 @@ import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase'; 
 import { createClient } from "@supabase/supabase-js";
 
-const sburl = process.env.VITE_SBURL
-const sbapi=process.env.VITE_SBAPI
+const sburl:string|undefined = import.meta.env.VITE_SBURL
+const sbapi=import.meta.env.VITE_SBAPI
 
 // Initialize the Supabase client using environment variables.
 // This client provides the connection to your Supabase database instance.
-const client = createClient(sburl, sbapi);
 
-// Initialize the Language Model (LLM) using a specific Google Gemini model.
+
+  const client = createClient(sburl!, sbapi!);
+  
+  // Initialize the Language Model (LLM) using a specific Google Gemini model.
 // This model will be used to generate standalone questions and final responses.
 const llm = new ChatGoogleGenerativeAI({
   model: "gemini-1.5-flash",
-  apiKey: process.env.VITE_LLM_API_KEY,
+  apiKey: import.meta.env.VITE_LLM_API_KEY,
 });
 
 // Initialize the embeddings model from Google Generative AI.
 // This is crucial for converting text into numerical vectors, enabling
 // semantic search in the vector store.
 const embeddings = new GoogleGenerativeAIEmbeddings({
-  apiKey: process.env.VITE_LLM_API_KEY,
+  apiKey: import.meta.env.VITE_LLM_API_KEY,
 });
 
 // Initialize the Supabase vector store.
