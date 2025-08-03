@@ -1,8 +1,7 @@
 import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
-import { llm, retriever } from "./retriever.js";
+import { llm } from "./retriever.js";
 import { RunnableSequence } from "@langchain/core/runnables";
-
 
 // --- Define Prompt Templates ---
 // The templates remain the same as they are correct.
@@ -43,41 +42,39 @@ const chain = RunnableSequence.from([
     // The entire original input ({ sent: "...", lang: "..." }) is available here.
     punctuated_sent: (input) => PunctChain.invoke({ sent: input.sent }),
     // We also "pass through" the original language variable for later use.
-    lang: (input) => input.lang
+    lang: (input) => input.lang,
   },
-  
+
   // Step 2: Fix grammar. The input here is { punctuated_sent: "...", lang: "..." }.
   {
     // Run the GramChain on the output of the previous step.
-    corrected_sent: (input) => GramChain.invoke({ sent: input.punctuated_sent }),
+    corrected_sent: (input) =>
+      GramChain.invoke({ sent: input.punctuated_sent }),
     // Again, we pass the original 'lang' variable forward.
-    lang: (input) => input.lang
+    lang: (input) => input.lang,
   },
-  
+
   // Step 3: Convert the language. The input here is { corrected_sent: "...", lang: "..." }.
   // This final step returns the direct output of the CnvrtChain.
-  (input) => CnvrtChain.invoke({  sent: input.corrected_sent,   lang: input.lang, })
+  (input) =>
+    CnvrtChain.invoke({ sent: input.corrected_sent, lang: input.lang }),
 ]);
-
 
 // --- Invoke the Corrected Chain ---
 const result = await chain.invoke({
-    sent: "Hi, How re u",
-    lang: "Kannada",
+  sent: "Hi, How re u",
+  lang: "French",
 });
 console.log(result);
 
-
-
 // ---------------- Here from below ex's, using any one of them is getting fix all errors. can't understand this behaviour of LLM-------------------
 // ---------------- I got it now, it all depends on your prompt how u give prompt to llm for example checkout the #"To change the langauge" last one-------------------
-
 
 // To Fix the grammar :
 
 // const GrammarTemplate = `Given a sentence correct the grammar.
 //     sentence: {sentence}
-//     sentence with correct grammar: 
+//     sentence with correct grammar:
 //     `
 // const Grammarprompt = PromptTemplate.fromTemplate(GrammarTemplate);
 
@@ -97,11 +94,11 @@ console.log(result);
 
 //To Fix the Punctuations :
 
-// const restrictivePunctuationTemplate = `Given a sentence, add punctuation where needed. 
+// const restrictivePunctuationTemplate = `Given a sentence, add punctuation where needed.
 // Do not correct any spelling or grammar mistakes. Only add necessary punctuation.
 
 // sentence: {sentence}
-// sentence with punctuation:  
+// sentence with punctuation:
 // `
 
 // const punctuationPrompt = PromptTemplate.fromTemplate(restrictivePunctuationTemplate);
@@ -125,7 +122,7 @@ console.log(result);
 // const langTemplate = `Given a sentence and a langauge name. Convert it to the mentioned language
 // sentence: {sentence}
 // langauge: {language}
-// sentence with converted language:  
+// sentence with converted language:
 // `
 
 // const langPrompt = PromptTemplate.fromTemplate(langTemplate);
