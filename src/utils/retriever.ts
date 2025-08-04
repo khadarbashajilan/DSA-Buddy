@@ -22,6 +22,7 @@ const sbapi=import.meta.env.VITE_SBAPI
 // This model will be used to generate standalone questions and final responses.
 const llm = new ChatGoogleGenerativeAI({
   model: "gemini-1.5-flash",
+  temperature:1,
   apiKey: import.meta.env.VITE_LLM_API_KEY,
 });
 

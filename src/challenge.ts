@@ -1,7 +1,7 @@
 import { PromptTemplate } from "@langchain/core/prompts";
 import { llm, retriever } from "./utils/retriever";
 import { StringOutputParser } from "@langchain/core/output_parsers";
-import {  RunnablePassthrough,  RunnableSequence,} from "@langchain/core/runnables";
+import { RunnablePassthrough, RunnableSequence,} from "@langchain/core/runnables";
 // ========================================================================================================
 // --- Prompt Templates ---
 // These are the instructions we give to the Language Model at different stages.
@@ -10,16 +10,27 @@ import {  RunnablePassthrough,  RunnableSequence,} from "@langchain/core/runnabl
 // This is the instruction for the LLM to rephrase a question so it can be understood
 // on its own, without any previous conversation history.
 
-export async function gemini(question:string){
+// const AllHistory = (convos:string[]) =>{  
+//   convos.map((str, idx) => (idx % 2 === 0 ? `Human: ${str}` : `AI: ${str}`)).join('\n');
+// }
+
+export async function gemini(question:string, history:string[]){
 
 const standaloneQuestionTemplate ="Given a question, convert it to a standalone question. question: {question} standalone question:";
 const standaloneQuestionPrompt = PromptTemplate.fromTemplate(standaloneQuestionTemplate);
 
 // This is the instruction for the LLM to generate the final answer.
 // It provides the retrieved context and the original question.
-const answerTemplate = `You are a helpful and enthusiastic support bot who can answer a given question about Data Structures based on the context provided. Try to find the answer in the context. If you really don't know the answer, say "I'm sorry, I don't know the answer to that." And redirect to gemini's chatbot i.e, "https://gemini.google.com" . Don't try to make up an answer. Always speak as if you were chatting to a friend.
+const answerTemplate = `You’re a friendly support bot that specializes in Data Structures.  
+Use the provided context and the conversation history as your memory,remember it before answering next question.
+Answer the new question as naturally as possible, without restating prior responses and give a clear, concise answer to the question.  
+If the answer isn’t in the context or memory, say: “I’m sorry, I don’t know the answer to that.”  
+Chat like you’re texting a close friend.
+
 context: {context}
+convo_history: {convo_history}
 question: {question}
+
 answer: `;
 const answerPrompt = PromptTemplate.fromTemplate(answerTemplate);
 
@@ -41,10 +52,12 @@ const standaloneQuestionChain = standaloneQuestionPrompt
     },
     retriever,
     //Below PrevResult means thats returned from retriever, dont get confused .i.e,. MATCHING CHUNKS[] from vetcor store SupaBase
-
+    
     (prevResult)=>{
-      return prevResult.map((doc) => doc.pageContent).join("\n\n")},
+      return prevResult.map(chunk => chunk.pageContent).join("\n\n");
+    }
     ]);
+
     
     // This chain's job is to take the context and the original question and generate the final answer.
   const answerGenerationChain = answerPrompt
@@ -70,10 +83,13 @@ const mainRagChain = RunnableSequence.from([
   {
     standalone_question: standaloneQuestionChain,
     question: new RunnablePassthrough(),
+    convo_history : ()=> history.map((str, idx) => (idx % 2 === 0 ? `Human: ${str}` : `AI: ${str}`)).join('\n'),
   },
   {
     context: retrievalChain,
     question: ({ question }) => question,
+    convo_history: ({convo_history})=> convo_history,
+    
   },
   answerGenerationChain,
 ]);
