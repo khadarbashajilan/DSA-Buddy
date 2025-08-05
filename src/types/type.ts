@@ -1,6 +1,4 @@
-export  type FormProps = {
-  setSubmitted: (ans:string) => void; 
-};
+
 export type BotContextType = {
   responses: string[];
   setSubmitted: (ans: string) => void;
@@ -16,6 +14,7 @@ export type BotContextType = {
   human: string;
   sethuman: React.Dispatch<React.SetStateAction<string>>;
   handlePromptClick:(prompt:string)=>void;
+  title:string
   promptslist: {
     [key: number]: string;
   };

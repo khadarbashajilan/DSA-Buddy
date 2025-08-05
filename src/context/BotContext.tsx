@@ -12,28 +12,8 @@ export default function BotProvider({
   const [submited, setIsSubmitted] = useState<boolean>(false);
   const [delay, setdelay] = useState(false);
   const scrollref = useRef<HTMLDivElement>(null);
-  const [responses, setResponses] = useState<string[]>([
-    "Hello! How can I help you today?",
-    "I'm here to answer questions about data structures.",
-    "What would you like to know?",
-    "I can explain concepts, provide examples, or help with algorithms.",
-    "Let's get started!",
-    "What data structure are you interested in?",
-    "I can help with arrays, linked lists, trees, graphs, and more.",
-    "What's your favorite data structure?",
-    "I'm always learning new things about data structures.",
-    "What's the most important data structure you've learned?",
-    "Hello! How can I help you today?",
-    "I'm here to answer questions about data structures.",
-    "What would you like to know?",
-    "I can explain concepts, provide examples, or help with algorithms.",
-    "Let's get started!",
-    "What data structure are you interested in?",
-    "I can help with arrays, linked lists, trees, graphs, and more.",
-    "What's your favorite data structure?",
-    "I'm always learning new things about data structures.",
-    "What's the most important data structure you've learned?",
-  ]);
+  const title:string ="Stuck on a data structure? Let’s simplify it together!";
+  const [responses, setResponses] = useState<string[]>([]);
   function setSubmitted(ans: string) {
     setIsSubmitted(true);
     setResponses((prev) => [...prev, ans]);
@@ -107,6 +87,7 @@ export default function BotProvider({
         sethuman,
         promptslist,
         handlePromptClick,
+        title
       }}
     >
       {children}

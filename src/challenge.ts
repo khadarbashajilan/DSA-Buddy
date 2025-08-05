@@ -5,20 +5,16 @@ import {
   RunnablePassthrough,
   RunnableSequence,
 } from "@langchain/core/runnables";
-// ========================================================================================================
-// --- Prompt Templates ---
-// These are the instructions we give to the Language Model at different stages.
-// ========================================================================================================
-
-// This is the instruction for the LLM to rephrase a question so it can be understood
-// on its own, without any previous conversation history.
-
-// const AllHistory = (convos:string[]) =>{
-//   convos.map((str, idx) => (idx % 2 === 0 ? `Human: ${str}` : `AI: ${str}`)).join('\n');
-// }
 
 export async function gemini(question: string, history: string[]) {
-  // return;
+  // ========================================================================================================
+  // --- Prompt Templates ---
+  // These are the instructions we give to the Language Model at different stages.
+  // ========================================================================================================
+
+  // This is the instruction for the LLM to rephrase a question so it can be understood
+  // on its own, without any previous conversation history.
+
   const standaloneQuestionTemplate =
     "Given a question, convert it to a standalone question. question: {question} standalone question:";
   const standaloneQuestionPrompt = PromptTemplate.fromTemplate(
@@ -103,10 +99,7 @@ answer: `;
   // --- Example Usage ---
   // This is how you would run the entire RAG pipeline with a user's question.
   // ========================================================================================================
-
-  // const userQuestion1 = "Can you give a real-life example of how Stacks work?";
-  // const userQuestion2 = "Where do we actually use Queues in everyday life?";
-  // const userQuestion3 = "What are Arrays and how do they make coding easier?";
+  // Define the user's question.
   const userQuestion = question;
 
   // Invoke the main RAG chain with the user's question.
@@ -116,8 +109,6 @@ answer: `;
   const finalAnswer = await mainRagChain.invoke({
     question: userQuestion,
   });
-
-  console.log(finalAnswer)
 
   return finalAnswer;
 }

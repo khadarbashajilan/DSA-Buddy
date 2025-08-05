@@ -3,8 +3,9 @@ import { useBotContext } from "../context/BotContext";
 
 
 
-const FormTSX = () => {
+const Inputform = () => {
   const {handleSubmit, sethuman, human} = useBotContext();
+
   return (
     <form
       className="rounded-4xl md:w-[80%] w-[85%] flex items-center gap-2 py-2 px-4 border-2 border-black backdrop-blur-lg "
@@ -24,4 +25,4 @@ const FormTSX = () => {
   );
 };
 
-export default FormTSX;
+export default Inputform;
