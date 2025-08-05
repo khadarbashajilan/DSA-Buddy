@@ -1,4 +1,4 @@
-# DS Study Buddy 🤖
+# DSA Study Buddy 🤖
 
 A conversational AI chatbot built with React and TypeScript that helps students learn Data Structures and Algorithms through interactive Q&A using Retrieval-Augmented Generation (RAG).
 
