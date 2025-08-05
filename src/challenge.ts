@@ -59,7 +59,7 @@ answer: >>`;
     //Below PrevResult means thats returned from retriever, dont get confused .i.e,. MATCHING CHUNKS[] from vetcor store SupaBase
 
     (prevResult) => {
-      return prevResult.map((chunk) => chunk.pageContent).join("\n\n");
+      return prevResult.map((chunk) => chunk.pageContent).join("\n"); //This is the context we are passing to the answer generation chain.
     },
   ]);
 

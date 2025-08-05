@@ -55,13 +55,16 @@ export default function BotProvider({
   }
   useEffect(() => {
     const scrollElement = scrollref.current;
-    if (scrollElement) {
+       if (scrollElement) {
       /**
        * Scrolls the chat container to the bottom to ensure the most recent message is visible.
        * This is done by setting the scrollTop property to the scrollHeight, which forces
        * the container to scroll to its maximum scroll position.
        */
-      scrollElement.scrollTop = scrollElement.scrollHeight;
+      // Add a small delay to ensure the content has been rendered
+      setTimeout(() => {
+        scrollElement.parentElement!.scrollTop = scrollElement!.scrollHeight;
+      }, 100);
     }
     setdelay(true);
     setTimeout(() => {
