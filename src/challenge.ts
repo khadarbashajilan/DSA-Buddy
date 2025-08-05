@@ -1,5 +1,5 @@
 import { PromptTemplate } from "@langchain/core/prompts";
-import { llm, retriever } from "./utils/retriever.ts";
+import { llm, retriever } from "./utils/retrievesupabase.ts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import {
   RunnablePassthrough,
