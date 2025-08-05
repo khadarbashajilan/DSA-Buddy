@@ -8,20 +8,18 @@ import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
 // Import the Supabase vector store and client library.
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase'; 
 import { createClient } from "@supabase/supabase-js";
-
-const sburl:string|undefined = import.meta.env.VITE_SBURL
+const sburl = import.meta.env.VITE_SBURL
 const sbapi=import.meta.env.VITE_SBAPI
 
 // Initialize the Supabase client using environment variables.
 // This client provides the connection to your Supabase database instance.
 
 
-  const client = createClient(sburl!, sbapi!);
-  
+const client = createClient(sburl!, sbapi!);
   // Initialize the Language Model (LLM) using a specific Google Gemini model.
 // This model will be used to generate standalone questions and final responses.
 const llm = new ChatGoogleGenerativeAI({
-  model: "gemini-1.5-flash",
+  model: "gemini-1.5-flash-8b",
   temperature:1,
   apiKey: import.meta.env.VITE_LLM_API_KEY,
 });

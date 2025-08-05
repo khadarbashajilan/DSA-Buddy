@@ -1,5 +1,5 @@
 import { PromptTemplate } from "@langchain/core/prompts";
-import { llm, retriever } from "./utils/retriever";
+import { llm, retriever } from "./utils/retriever.ts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import {
   RunnablePassthrough,
@@ -116,6 +116,8 @@ answer: `;
   const finalAnswer = await mainRagChain.invoke({
     question: userQuestion,
   });
+
+  console.log(finalAnswer)
 
   return finalAnswer;
 }
