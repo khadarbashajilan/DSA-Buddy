@@ -8,7 +8,7 @@ const Chat = () => {
       style={{ scrollbarWidth: "none" }}
     >
       <div
-        className="md:py-8 py-4 flex flex-col justify-end md:w-[90%] lg:w-[88%] w-[100%] gap-3 md:text-[15px] text-[12px] lg:text-[18px] font-medium  my-1"
+        className="md:py-8 py-4 flex flex-col justify-end md:w-[90%] lg:w-[88%] w-[100%] gap-3 md:text-[17px] text-[14px] lg:text-[19px] font-medium  my-1"
         ref={scrollref}
       >
         {responses.slice().map((response, index) => (
