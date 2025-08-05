@@ -1,10 +1,8 @@
 import { ChevronRightCircle } from "lucide-react";
 import { useBotContext } from "../context/BotContext";
 
-
-
 const Inputform = () => {
-  const {handleSubmit, sethuman, human} = useBotContext();
+  const { handleSubmit, sethuman, human } = useBotContext();
 
   return (
     <form
@@ -19,8 +17,14 @@ const Inputform = () => {
         placeholder="Ask me anything about Data Structures..."
       />
       <button aria-label="Send">
-        <ChevronRightCircle className={`size-8 md:size-10 cursor-pointer ${human.length > 0 ? " transition-all duration-300" : " transition-all duration-300 opacity-50 cursor-not-allowed"}`} />
-    </button>
+        <ChevronRightCircle
+          className={`size-8 md:size-10 cursor-pointer ${
+            human.length > 0
+              ? " transition-all duration-300"
+              : " transition-all duration-300 opacity-50 cursor-not-allowed"
+          }`}
+        />
+      </button>
     </form>
   );
 };

@@ -12,7 +12,8 @@ export default function BotProvider({
   const [submited, setIsSubmitted] = useState<boolean>(false);
   const [delay, setdelay] = useState(false);
   const scrollref = useRef<HTMLDivElement>(null);
-  const title:string ="Stuck on a data structure? Let’s simplify it together!";
+  const title: string =
+    "Stuck on a data structure? Let’s simplify it together!";
   const [responses, setResponses] = useState<string[]>([]);
   function setSubmitted(ans: string) {
     setIsSubmitted(true);
@@ -50,12 +51,12 @@ export default function BotProvider({
   async function handlePromptClick(prompt: string) {
     setResponses((prev) => [...prev, prompt]);
     setIsSubmitted(true);
-    const ans=await gemini(prompt, convoHistory);
+    const ans = await gemini(prompt, convoHistory);
     setSubmitted(ans!);
   }
   useEffect(() => {
     const scrollElement = scrollref.current;
-       if (scrollElement) {
+    if (scrollElement) {
       /**
        * Scrolls the chat container to the bottom to ensure the most recent message is visible.
        * This is done by setting the scrollTop property to the scrollHeight, which forces
@@ -90,7 +91,7 @@ export default function BotProvider({
         sethuman,
         promptslist,
         handlePromptClick,
-        title
+        title,
       }}
     >
       {children}

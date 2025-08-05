@@ -14,12 +14,12 @@ const App = () => {
           {!submited ? (
             <>
               <Title />
-              <Prompts/>
+              <Prompts />
             </>
           ) : (
             <Chat />
           )}
-          <Inputform/>
+          <Inputform />
         </div>
       </main>
     </>

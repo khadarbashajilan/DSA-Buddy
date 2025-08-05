@@ -24,8 +24,7 @@ export async function gemini(question: string, history: string[]) {
   // This is the instruction for the LLM to generate the final answer.
   // It provides the retrieved context and the original question.
   // Optimised template – same placeholders, 40 % fewer tokens
-const answerTemplate =
-`You are a friendly DSA study buddy.
+  const answerTemplate = `You are a friendly DSA study buddy.
 
 Rules:
 - Use only the provided context & convo_history.
