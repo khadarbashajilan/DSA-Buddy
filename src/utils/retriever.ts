@@ -19,7 +19,7 @@ const client = createClient(sburl!, sbapi!);
   // Initialize the Language Model (LLM) using a specific Google Gemini model.
 // This model will be used to generate standalone questions and final responses.
 const llm = new ChatGoogleGenerativeAI({
-  model: "gemini-1.5-flash-8b",
+  model: "gemini-2.0-flash",
   temperature:1,
   apiKey: import.meta.env.VITE_LLM_API_KEY,
 });

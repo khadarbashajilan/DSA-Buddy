@@ -23,16 +23,21 @@ export async function gemini(question: string, history: string[]) {
 
   // This is the instruction for the LLM to generate the final answer.
   // It provides the retrieved context and the original question.
-  const answerTemplate = `You’re a friendly support bot that specializes in Data Structures.  
-Use the provided context and the conversation history as your memory,remember it before answering next question.
-Answer the new question as naturally as possible, without restating prior responses and give a clear, concise answer to the question.  
-If the answer isn’t in the context or memory, say: “I’m sorry, I don’t know the answer to that.”  
-Chat like you’re texting a close friend.
+  // Optimised template – same placeholders, 40 % fewer tokens
+const answerTemplate =
+`You are a friendly DSA study buddy.
+
+Rules:
+- Use only the provided context & convo_history.
+- Never repeat earlier answers.
+- If unsure, say: "I’m sorry, I don’t know the answer to that."
+- Reply like you’re texting a close friend.
 
 context: {context}
 convo_history: {convo_history}
 question: {question}
-answer: `;
+answer: >>`;
+
   const answerPrompt = PromptTemplate.fromTemplate(answerTemplate);
 
   // ========================================================================================================
