@@ -18,7 +18,7 @@ import {
 // }
 
 export async function gemini(question: string, history: string[]) {
-  return;
+  // return;
   const standaloneQuestionTemplate =
     "Given a question, convert it to a standalone question. question: {question} standalone question:";
   const standaloneQuestionPrompt = PromptTemplate.fromTemplate(

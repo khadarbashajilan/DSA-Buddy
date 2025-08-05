@@ -7,7 +7,7 @@
     main{
     
         div{
-            @apply bg-white border-gray-700
+            @apply  border-gray-700
         }
     }
 }

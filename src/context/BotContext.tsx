@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { gemini } from "../challenge";
+import type { BotContextType } from "../types/type";
 
-const BotContext = createContext(undefined);
+const BotContext = createContext<BotContextType | undefined>(undefined);
 
 export default function BotProvider({
   children,
@@ -9,6 +10,8 @@ export default function BotProvider({
   children: React.ReactNode;
 }) {
   const [submited, setIsSubmitted] = useState<boolean>(false);
+  const [delay, setdelay] = useState(false);
+  const scrollref = useRef<HTMLDivElement>(null);
   const [responses, setResponses] = useState<string[]>([
     "Hello! How can I help you today?",
     "I'm here to answer questions about data structures.",
@@ -31,7 +34,6 @@ export default function BotProvider({
     "I'm always learning new things about data structures.",
     "What's the most important data structure you've learned?",
   ]);
-  const scrollref = useRef<HTMLDivElement>(null);
   function setSubmitted(ans: string) {
     setIsSubmitted(true);
     setResponses((prev) => [...prev, ans]);
@@ -41,7 +43,36 @@ export default function BotProvider({
    * This effect runs whenever the responses array changes, ensuring the most recent message
    * is always visible to the user.
    */
-  const [delay, setdelay] = useState(false);
+
+  //form :
+
+  const [convoHistory, setconvoHistory] = useState<string[]>([]);
+  const [human, sethuman] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (human.trim() === "") return;
+    setSubmitted(human.trim());
+    setconvoHistory((prev) => [...prev, human]);
+    sethuman("");
+    const ans = await gemini(human, convoHistory);
+    setSubmitted(ans!);
+    console.log(ans);
+  };
+
+  //prompts:
+  const promptslist = {
+    1: "Can you give a real-life example of how Stacks work? ",
+    2: "What are Arrays and how do they make coding easier?",
+    3: "Where do we actually use Queues in everyday life?",
+  };
+
+  async function handlePromptClick(prompt: string) {
+    setResponses((prev) => [...prev, prompt]);
+    setIsSubmitted(true);
+    const ans=await gemini(prompt, convoHistory);
+    setSubmitted(ans!);
+  }
   useEffect(() => {
     const scrollElement = scrollref.current;
     if (scrollElement) {
@@ -58,52 +89,32 @@ export default function BotProvider({
     }, 1000);
   }, [responses]);
 
-  //form : 
-
-  const [convoHistory, setconvoHistory] = useState<string[]>([]);
-  const [human, sethuman] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
-    e.preventDefault();
-    setSubmitted(human);
-    setconvoHistory((prev) => [...prev, human]);
-    sethuman("");
-    const ans = await gemini(human, convoHistory);
-    setSubmitted(ans!);
-    console.log(ans);
-  };
-
-  //prompts:
-   const promptslist = {
-    1: "Can you give a real-life example of how Stacks work? ",
-    2: "What are Arrays and how do they make coding easier?",
-    3: "Where do we actually use Queues in everyday life?",
-  };
-  
   return (
     <BotContext.Provider
-     value={{
-        responses: responses,
-        setSubmitted:setSubmitted ,
-        scrollref:scrollref,
-        delay:delay,
-        setdelay:setdelay,
-        submited:submited,
-        setIsSubmitted:setIsSubmitted,
-        setResponses:setResponses,
-        handleSubmit:handleSubmit,
-        convoHistory:convoHistory,
-        setconvoHistory:setconvoHistory,
-        human:human,
-        sethuman:sethuman, 
-        promptslist:promptslist
+      value={{
+        responses,
+        setSubmitted,
+        scrollref,
+        delay,
+        setdelay,
+        submited,
+        setIsSubmitted,
+        setResponses,
+        handleSubmit,
+        convoHistory,
+        setconvoHistory,
+        human,
+        sethuman,
+        promptslist,
+        handlePromptClick,
       }}
-      >
-   {children}
-   </BotContext.Provider>   
-);
+    >
+      {children}
+    </BotContext.Provider>
+  );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useBotContext() {
   const context = useContext(BotContext);
   if (!context) {
@@ -111,4 +122,3 @@ export function useBotContext() {
   }
   return context;
 }
-
