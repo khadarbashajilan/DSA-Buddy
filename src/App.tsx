@@ -1,5 +1,5 @@
 import Chat from "./components/Chat";
-import Inputform from "./components/InputForm";
+import Inputform from "./components/Inputform";
 import Title from "./components/Title";
 import Prompts from "./components/Prompts";
 import { useBotContext } from "./context/BotContext";

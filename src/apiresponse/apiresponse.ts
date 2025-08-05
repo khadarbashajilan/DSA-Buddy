@@ -1,5 +1,23 @@
+/**
+ * This module implements a Retrieval-Augmented Generation (RAG) system for answering questions
+ * about Data Structures and Algorithms (DSA) concepts. The system uses LangChain components
+ * to create a pipeline that:
+ * 1. Converts user questions into standalone questions
+ * 2. Retrieves relevant context from a vector database
+ * 3. Generates answers using the retrieved context and conversation history
+ *
+ * The implementation includes:
+ * - Prompt templates for question rephrasing and answer generation
+ * - Chains for standalone question generation, document retrieval, and answer generation
+ * - A main RAG chain that combines all components
+ * - Support for conversation history to maintain context across multiple interactions
+ *
+ * The system is designed to be friendly and conversational, providing helpful answers
+ * while maintaining strict adherence to the provided context.
+ */
+
 import { PromptTemplate } from "@langchain/core/prompts";
-import { llm, retriever } from "./utils/retrievesupabase.ts";
+import { llm, retriever } from "../utils/retrievesupabase.ts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import {
   RunnablePassthrough,
@@ -38,7 +56,6 @@ question: {question}
 answer: >>`;
 
   const answerPrompt = PromptTemplate.fromTemplate(answerTemplate);
-
   // ========================================================================================================
   // --- Building the Sub-Chains ---
   // We break down the big task into smaller, more manageable chains.
@@ -116,3 +133,4 @@ answer: >>`;
 
   return finalAnswer;
 }
+
