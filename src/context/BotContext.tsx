@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { gemini } from "../apiresponse/apiresponse";
 import type { BotContextType } from "../types/type";
+import { testGeminiConnection } from "../testapi/test";
 
 const BotContext = createContext<BotContextType | undefined>(undefined);
 // Custom hook to access the bot context
@@ -9,6 +10,16 @@ export default function BotProvider({
 }: {
   children: React.ReactNode;
 }) {
+
+//Error state
+ const [Error, setError] = useState<boolean>(false);
+
+ const test = async () =>{
+  const isError = await testGeminiConnection();
+  setError(isError);
+ } 
+
+
   // State to track if the form has been submitted
   const [submited, setIsSubmitted] = useState<boolean>(false);
   // State to manage the delay between responses
@@ -79,6 +90,7 @@ export default function BotProvider({
     setTimeout(() => {
       setdelay(false);
     }, 1000);
+    test();
   }, [responses]);
 
   return (
@@ -101,6 +113,7 @@ export default function BotProvider({
         promptslist,
         handlePromptClick,
         title,
+        Error,
       }}
     >
       {children}

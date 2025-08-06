@@ -14,6 +14,7 @@ export type BotContextType = {
   sethuman: React.Dispatch<React.SetStateAction<string>>;
   handlePromptClick: (prompt: string) => void;
   title: string;
+  Error:boolean;
   promptslist: {
     [key: number]: string;
   };
