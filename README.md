@@ -177,7 +177,17 @@ $$;
 ```
 
 5. **Populate Knowledge Base**
-Add your DSA content to the vector database using embeddings.
+You need to populate your vector database with DSA content before the chatbot can provide meaningful responses. The complete process for data population is detailed in this repository: 
+
+📚 **[Vector Database Population Guide](https://github.com/khadarbashajilan/LangChain/blob/main/PopulateVectorstore.js)**
+    **[Download data Here](https://drive.google.com/file/d/1H9oTbaKCkNb1Vh3AiJ7I4l_hM89kArTz/view?usp=sharing)**
+This script demonstrates how to:
+- Load and chunk DSA documentation
+- Generate embeddings for each content piece
+- Store vectors in Supabase for semantic search
+- Set up the proper database schema
+
+**Note**: Without populating the database, the chatbot won't have knowledge to draw from and may not provide useful responses.
 
 ### Development Commands
 
@@ -247,7 +257,7 @@ We welcome contributions! Here's how you can help:
 ### Development Workflow
 ```bash
 # Setup development environment
-git clone <your-fork>
+git clone <https://github.com/khadarbashajilan/DSA-Buddy.git>
 npm install
 cp .env.example .env  # Configure your environment
 
