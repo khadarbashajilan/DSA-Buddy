@@ -1,3 +1,19 @@
-node_modules
+# Node.js specific files
+node_modules/
+package-lock.json
+
+# Build output folders
+dist/
+build/
+public/
+
+# Environment files
 .env
-dist
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Logs and temporary files
+*.log
+*.tmp
