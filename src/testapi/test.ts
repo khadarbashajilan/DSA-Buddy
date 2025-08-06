@@ -7,11 +7,10 @@ const ai = new GoogleGenAI({
 
 export async function testGeminiConnection(): Promise<boolean> {
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+    await ai.models.generateContent({
+      model: "gemini-2.0-flash-lite",
       contents: "Hi",
     });
-    console.log(response.text);
     return false;
   } catch (error) {
     console.error("Error generating content:", error);
