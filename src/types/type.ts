@@ -19,3 +19,7 @@ export type BotContextType = {
     [key: number]: string;
   };
 };
+export interface Document {
+  pageContent: string;
+  metadata: Record<string, unknown>;
+}

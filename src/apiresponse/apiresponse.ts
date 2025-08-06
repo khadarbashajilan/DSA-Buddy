@@ -23,6 +23,7 @@ import {
   RunnablePassthrough,
   RunnableSequence,
 } from "@langchain/core/runnables";
+import type { Document } from "../types/type.ts";
 
 export async function gemini(question: string, history: string[]) {
   // ========================================================================================================
@@ -75,7 +76,7 @@ answer: >>`;
     //Below PrevResult means thats returned from retriever, dont get confused .i.e,. MATCHING CHUNKS[] from vetcor store SupaBase
 
     (prevResult) => {
-      return prevResult.map((chunk) => chunk.pageContent).join("\n"); //This is the context we are passing to the answer generation chain.
+      return prevResult.map((chunk:Document) => chunk.pageContent).join("\n"); //This is the context we are passing to the answer generation chain.
     },
   ]);
 
