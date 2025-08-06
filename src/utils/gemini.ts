@@ -14,3 +14,4 @@ export const llm = new ChatGoogleGenerativeAI({
 export const embeddings = new GoogleGenerativeAIEmbeddings({
   apiKey: import.meta.env.VITE_LLM_API_KEY,
 });
+
