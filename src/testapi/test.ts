@@ -8,7 +8,7 @@ const ai = new GoogleGenAI({
 export async function testGeminiConnection(): Promise<boolean> {
   try {
     await ai.models.generateContent({
-      model: "gemini-2.0-flash-lite",
+      model: "gemini-2.5-flash-lite",
       contents: "Hi",
     });
     return false;
