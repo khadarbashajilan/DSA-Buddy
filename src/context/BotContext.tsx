@@ -51,7 +51,6 @@ export default function BotProvider({
     sethuman("");
     const ans = await gemini(human, convoHistory);
     setSubmitted(ans!);
-    console.log(ans);
   };
 
   //Prompts
