@@ -89,8 +89,13 @@ export default function BotProvider({
     setTimeout(() => {
       setdelay(false);
     }, 1000);
-    test();
   }, [responses]);
+  
+  useEffect(() => {
+    // Test the connection to the Gemini API when the component mounts
+    // This ensures the error state is properly initialized
+    test();
+  }, []) // Empty dependency array means this runs once on mount
 
   return (
     // Provide the context values to the children components
