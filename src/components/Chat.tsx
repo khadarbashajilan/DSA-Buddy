@@ -1,4 +1,5 @@
 import { useBotContext } from "../context/BotContext";
+import ReactMarkdown from "react-markdown";
 
 const Chat = () => {
   const { responses, scrollref, delay } = useBotContext();
@@ -14,8 +15,8 @@ const Chat = () => {
         {responses.map((response, index) => (
             index % 2 != 0 ? 
          
-                <div key={index} className="self-start  rounded-2xl p-3 px-2 ">
-                  {delay && index === responses.length - 1 ? " ... " : response}
+                <div key={index} className="self-start whitespace-pre-line rounded-2xl p-3 px-2 ">
+                  {delay && index === responses.length - 1 ? " ... " : <ReactMarkdown>{response}</ReactMarkdown>}
                 </div>
              : 
               <div
