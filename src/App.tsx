@@ -7,7 +7,6 @@ import Errorfetching from "./components/Errorfetching";
 
 const App = () => {
   // const { submited, Error } = useBotContext();
-
   return (
     <>
       <main className="justify-around p-2 h-screen">
