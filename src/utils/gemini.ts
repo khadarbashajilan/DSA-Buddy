@@ -4,7 +4,7 @@ import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 // This model will be used to generate standalone questions and final responses.
 export const llm = new ChatGoogleGenerativeAI({
   model: "gemini-2.5-flash-lite",
-  temperature: 1,
+  temperature: 0.7,
   apiKey: import.meta.env.VITE_LLM_API_KEY,
 });
 
