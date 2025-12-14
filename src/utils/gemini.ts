@@ -12,6 +12,7 @@ export const llm = new ChatGoogleGenerativeAI({
 // This is crucial for converting text into numerical vectors, enabling
 // semantic search in the vector store.
 export const embeddings = new GoogleGenerativeAIEmbeddings({
+    model: "models/text-embedding-004",
   apiKey: import.meta.env.VITE_LLM_API_KEY,
 });
 
